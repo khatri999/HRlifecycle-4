@@ -47,6 +47,87 @@ export type Database = {
         }
         Relationships: []
       }
+      employees: {
+        Row: {
+          avatar: string | null
+          created_at: string | null
+          date_of_birth: string | null
+          department: string
+          designation: string
+          email: string | null
+          employee_id: string
+          employment_type: string | null
+          exit_date: string | null
+          exit_interview_notes: string | null
+          exit_progress: number | null
+          exit_status: string | null
+          fnf_status: string | null
+          id: string
+          joining_date: string
+          last_working_day: string | null
+          location: string | null
+          manager: string | null
+          name: string
+          onboarding_progress: number | null
+          onboarding_status: string | null
+          phone: string | null
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          avatar?: string | null
+          created_at?: string | null
+          date_of_birth?: string | null
+          department: string
+          designation: string
+          email?: string | null
+          employee_id: string
+          employment_type?: string | null
+          exit_date?: string | null
+          exit_interview_notes?: string | null
+          exit_progress?: number | null
+          exit_status?: string | null
+          fnf_status?: string | null
+          id?: string
+          joining_date: string
+          last_working_day?: string | null
+          location?: string | null
+          manager?: string | null
+          name: string
+          onboarding_progress?: number | null
+          onboarding_status?: string | null
+          phone?: string | null
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          avatar?: string | null
+          created_at?: string | null
+          date_of_birth?: string | null
+          department?: string
+          designation?: string
+          email?: string | null
+          employee_id?: string
+          employment_type?: string | null
+          exit_date?: string | null
+          exit_interview_notes?: string | null
+          exit_progress?: number | null
+          exit_status?: string | null
+          fnf_status?: string | null
+          id?: string
+          joining_date?: string
+          last_working_day?: string | null
+          location?: string | null
+          manager?: string | null
+          name?: string
+          onboarding_progress?: number | null
+          onboarding_status?: string | null
+          phone?: string | null
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       exit_clearance_forms: {
         Row: {
           contact_number: string
