@@ -1,61 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 240 10% 98%;
-    --foreground: 240 10% 15%;
+    --background: 210 20% 98%;
+    --foreground: 220 25% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 15%;
+    --card-foreground: 220 25% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 15%;
+    --popover-foreground: 220 25% 10%;
 
-    --primary: 221 83% 53%;
+    --primary: 173 58% 39%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 5% 90%;
-    --secondary-foreground: 240 10% 15%;
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 220 25% 10%;
 
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 5% 40%;
+    --muted: 210 15% 94%;
+    --muted-foreground: 220 10% 46%;
 
-    --accent: 240 5% 94%;
-    --accent-foreground: 240 10% 15%;
+    --accent: 173 40% 94%;
+    --accent-foreground: 173 58% 25%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 5% 85%;
-    --input: 240 5% 85%;
-    --ring: 221 83% 63%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 173 58% 39%;
 
-    --radius: 0.5rem;
+    --radius: 0.625rem;
 
-    /* Status colors */
-    --status-in-progress-bg: 217 91% 95%;
-    --status-in-progress-text: 221 83% 40%;
-    --status-completed-bg: 142 76% 94%;
-    --status-completed-text: 142 72% 29%;
-    --status-at-risk-bg: 48 96% 93%;
-    --status-at-risk-text: 32 95% 35%;
-    --status-overdue-bg: 0 93% 95%;
-    --status-overdue-text: 0 72% 40%;
-
-    /* Card shadows */
-    --shadow-card: 0 0 0 1px rgba(0,0,0,.05), 0 1px 2px 0 rgba(0,0,0,.05);
-    --shadow-card-hover: 0 0 0 1px rgba(0,0,0,.05), 0 2px 4px 0 rgba(0,0,0,.04), 0 4px 8px -2px rgba(0,0,0,.04);
-
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 240 5% 26%;
-    --sidebar-primary: 221 83% 53%;
+    --sidebar-background: 220 25% 10%;
+    --sidebar-foreground: 210 15% 85%;
+    --sidebar-primary: 173 58% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 5% 94%;
-    --sidebar-accent-foreground: 240 10% 15%;
-    --sidebar-border: 240 5% 90%;
-    --sidebar-ring: 221 83% 63%;
+    --sidebar-accent: 220 20% 16%;
+    --sidebar-accent-foreground: 210 15% 85%;
+    --sidebar-border: 220 20% 18%;
+    --sidebar-ring: 173 58% 39%;
+
+    --success: 152 60% 42%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --info: 210 100% 52%;
+    --info-foreground: 0 0% 100%;
+
+    --font-display: 'DM Sans', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  .dark {
+    --background: 220 25% 7%;
+    --foreground: 210 15% 90%;
+    --card: 220 25% 10%;
+    --card-foreground: 210 15% 90%;
+    --popover: 220 25% 10%;
+    --popover-foreground: 210 15% 90%;
+    --primary: 173 58% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 20% 16%;
+    --secondary-foreground: 210 15% 90%;
+    --muted: 220 20% 16%;
+    --muted-foreground: 215 15% 55%;
+    --accent: 220 20% 16%;
+    --accent-foreground: 173 58% 50%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 20% 18%;
+    --input: 220 20% 18%;
+    --ring: 173 58% 45%;
+    --sidebar-background: 220 30% 6%;
+    --sidebar-foreground: 210 15% 85%;
+    --sidebar-primary: 173 58% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 25% 12%;
+    --sidebar-accent-foreground: 210 15% 85%;
+    --sidebar-border: 220 25% 12%;
+    --sidebar-ring: 173 58% 45%;
   }
 }
 
@@ -65,7 +93,19 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Geist', system-ui, -apple-system, sans-serif;
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .font-body {
+    font-family: var(--font-body);
   }
 }
