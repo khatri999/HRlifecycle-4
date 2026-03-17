@@ -1,21 +1,32 @@
 import { AppLayout } from "@/components/layout/AppLayout";
 import { StatusBadge } from "@/components/shared/StatusBadge";
-import { Search, Plus, Upload } from "lucide-react";
+import { Search, Plus, Upload, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { useEmployees, computeExperience } from "@/hooks/useEmployees";
+import { useEmployees, useDeleteEmployee, computeExperience, type EmployeeRow } from "@/hooks/useEmployees";
 import { AddEmployeeDialog } from "@/components/employees/AddEmployeeDialog";
+import { EditEmployeeDialog } from "@/components/employees/EditEmployeeDialog";
 import { ImportDataDialog } from "@/components/employees/ImportDataDialog";
 import { ExportDataDropdown } from "@/components/employees/ExportDataDropdown";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const Employees = () => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<string>("all");
   const [addOpen, setAddOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
+  const [editEmployee, setEditEmployee] = useState<EmployeeRow | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<EmployeeRow | null>(null);
 
   const { data: employees = [], isLoading } = useEmployees();
+  const deleteEmployee = useDeleteEmployee();
 
   const filtered = employees.filter((emp) => {
     const matchesSearch =
@@ -34,6 +45,12 @@ const Employees = () => {
     { value: "notice-period", label: "Notice Period" },
     { value: "exited", label: "Exited" },
   ];
+
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    await deleteEmployee.mutateAsync(deleteTarget.id);
+    setDeleteTarget(null);
+  };
 
   return (
     <AppLayout title="Employee Directory" subtitle={`${employees.length} employees`}>
@@ -91,12 +108,13 @@ const Employees = () => {
                 <th className="text-left py-3 px-4 text-muted-foreground font-medium">Joining Date</th>
                 <th className="text-left py-3 px-4 text-muted-foreground font-medium">Experience</th>
                 <th className="text-left py-3 px-4 text-muted-foreground font-medium">Status</th>
+                <th className="text-right py-3 px-4 text-muted-foreground font-medium">Actions</th>
               </tr>
             </thead>
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="py-12 text-center text-muted-foreground text-sm">Loading...</td>
+                  <td colSpan={8} className="py-12 text-center text-muted-foreground text-sm">Loading...</td>
                 </tr>
               ) : (
                 filtered.map((emp) => (
@@ -120,6 +138,23 @@ const Employees = () => {
                     <td className="py-3 px-4">
                       <StatusBadge status={emp.status as any} />
                     </td>
+                    <td className="py-3 px-4 text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => setEditEmployee(emp)}>
+                            <Pencil className="h-4 w-4 mr-2" /> Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setDeleteTarget(emp)}>
+                            <Trash2 className="h-4 w-4 mr-2" /> Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </td>
                   </tr>
                 ))
               )}
@@ -132,7 +167,26 @@ const Employees = () => {
       </div>
 
       <AddEmployeeDialog open={addOpen} onOpenChange={setAddOpen} />
+      <EditEmployeeDialog employee={editEmployee} open={!!editEmployee} onOpenChange={(open) => !open && setEditEmployee(null)} />
       <ImportDataDialog open={importOpen} onOpenChange={setImportOpen} />
+
+      {/* Delete Confirmation */}
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Employee</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete <span className="font-semibold text-foreground">{deleteTarget?.name}</span> ({deleteTarget?.employee_id})? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              {deleteEmployee.isPending ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AppLayout>
   );
 };

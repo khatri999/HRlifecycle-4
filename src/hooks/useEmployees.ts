@@ -83,6 +83,43 @@ export function useAddEmployee() {
   });
 }
 
+export function useUpdateEmployee() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, ...updates }: Partial<EmployeeRow> & { id: string }) => {
+      const { data, error } = await supabase.from("employees").update(updates).eq("id", id).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["employees"] });
+      qc.invalidateQueries({ queryKey: ["employee-stats"] });
+      toast.success("Employee updated successfully");
+    },
+    onError: (err: any) => {
+      toast.error(err.message || "Failed to update employee");
+    },
+  });
+}
+
+export function useDeleteEmployee() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("employees").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["employees"] });
+      qc.invalidateQueries({ queryKey: ["employee-stats"] });
+      toast.success("Employee deleted successfully");
+    },
+    onError: (err: any) => {
+      toast.error(err.message || "Failed to delete employee");
+    },
+  });
+}
+
 export function useBulkInsertEmployees() {
   const qc = useQueryClient();
   return useMutation({
