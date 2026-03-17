@@ -8,8 +8,8 @@ import {
   FileText,
   BarChart3,
   Shield,
-  ChevronLeft,
-  ChevronRight,
+  PanelLeft,
+  PanelLeftClose,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
