@@ -32,7 +32,7 @@ const Dashboard = () => {
   });
 
   return (
-    <AppLayout title="Dashboard" subtitle="Welcome back! Here's your HR overview.">
+    <AppLayout title="Dashboard">
       {/* Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <MetricCard title="Total Employees" value={stats?.total ?? 0} icon={Users} subtitle={`${stats?.active ?? 0} active`} />
